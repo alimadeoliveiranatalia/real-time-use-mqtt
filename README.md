@@ -5,26 +5,6 @@ Interface Web para exibição de dados do broker MQTT mosquitto
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -34,11 +14,8 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Infrastructure
+<img src="./infraestrutura_mqtt.drawio.png"/>
 
 ## Server Mosquitto
 
@@ -78,5 +55,35 @@ Em seguida, execute o seguinte comando de criação do servidor mosquitto em um 
 docker run --name mosquitto_server -p 1883:1883 -p 9001:9001 mosquitto-websocket
 ```
 
+## Get started In Client Server
 
+Clone o projeto 
+```bash
+  git clone https://github.com/alimadeoliveiranatalia/real-time-use-mqtt.git
+```
+Entre no diretório backend e frontend
+```bash
+    cd backend
+    # or
+    cd frontend
+```
+Instale as dependências do projeto
+```bash
+    npm install
+```
+Abra o terminal e execute
+```bash
+    node client_subscribe.js
+```
+O console exibirá a seguinte messagem: Inscrito no tópico: <name_topico>
 
+Em outro terminal execute
+```bash
+    node client_publish.js
+```
+O console irá exibir os dados do csv no console.
+
+## Additional References
+
+- [How to Configure Mosquitto MQTT Broker in Docker](https://cedalo.com/blog/mosquitto-docker-configuration-ultimate-guide/)
+- [How to Configure MQTT over Websockets with Mosquitto Broker](https://cedalo.com/blog/enabling-websockets-over-mqtt-with-mosquitto/)

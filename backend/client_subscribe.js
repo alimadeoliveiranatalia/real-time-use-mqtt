@@ -14,27 +14,32 @@ const options = {
 
 const io = new Server(8080)
 
-const client = mqtt.connect(url_dev)
+const client = mqtt.connect(url_senai, options)
 
-io.on("connection", (socket) => {
+/*io.on("connection", (socket) => {
     console.log(`connect ${socket.id}`)
-    socket.emit("status connect", `connect ${socket.id}`)
+    socket.emit("status connect", `connect ${socket.id}`)*/
+    
     client.on("connect", () => {
-        client.subscribe("exemploTopico", (err) => {
+        client.subscribe("dados_temperatura", (err) => {
+            
             if(!err){
-                console.log('Inscrito no tópico: exemploTopico')
-                socket.emit("status broker", 'Inscrito no tópico: exemploTopico')
+                
+                console.log('Inscrito no tópico: dados_temperatura')
+                
+                //socket.emit("status broker", 'Inscrito no tópico: exemploTopico')
+            
             } else {
                 console.error(err)
             }
         })
     })
-})
+/*})*/
 
-io.on("listen message", (socket) => {
+/*io.on("listen message", (socket) => {*/
     client.on("message", (topic, message) => {
         console.info('listening topic: ', topic)
         console.info('message: ', message.toString())
-        socket.emit("message", message.toString())
+        //socket.emit("message", message.toString())
     })
-})
+/*})*/
