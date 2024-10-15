@@ -44,9 +44,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 Para consumir dados será necessário já haver um servidor no [mosquitto](https://mosquitto.org/) já configurado e com a comunicação websocket já habilitada.
 
-Neste demo vamos utilizar um cointainer mosquitto no [docker](https://www.docker.com/).
+Neste demo vamos utilizar um container mosquitto no [docker](https://www.docker.com/).
 
-Faça a criação de um arquivo Dockerfile na raiz do projeto, com as seguintes especificações:
+Crie um arquivo Dockerfile na raiz do projeto, com as seguintes especificações:
 
 ```docker
 FROM eclipse-mosquitto
@@ -56,7 +56,7 @@ COPY mosquitto.conf /mosquitto/config/mosquitto.conf
 CMD ["mosquitto", "-c", "/mosquitto/config/mosquitto.conf"]
 ```
 
-Faça a criação de um arquivo mosquitto.conf na raiz do projeto, com as seguintes especificações:
+Crie um arquivo mosquitto.conf na raiz do projeto, com as seguintes especificações:
 
 ```conf
 listener 1883
@@ -72,7 +72,7 @@ Execute o seguinte comando no terminal, no mesmo diretório do arquivo Dockerfil
 docker build -t mosquitto-websocket .
 ```
 
-Em seguida, execute o seguinte comando a a criação do servidor mosquitto em um container docker:
+Em seguida, execute o seguinte comando de criação do servidor mosquitto em um container docker:
 
 ```bash
 docker run --name mosquitto_server -p 1883:1883 -p 9001:9001 mosquitto-websocket
