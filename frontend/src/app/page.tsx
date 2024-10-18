@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io('http://localhost:8080')
+const socket = io('http://localhost:3400', { transports : ["websocket"]})
 
 export default function Home() {
 
@@ -16,7 +16,7 @@ export default function Home() {
   function onConnect(){
     setIsConnected(true)
     socket.on("status connect", (arg) => {
-      setMessageSocket(arg)
+      setMessageSocket(String(arg))
     })
     setTransport(socket.io.engine.transport.name || "N/A")
 
@@ -25,12 +25,9 @@ export default function Home() {
     })
 
     socket.on("status broker", (arg) => {
-      setMessageSocket(arg)
+      setMessageSocket(String(arg))
     })
 
-    socket.on("message", (arg) => {
-      setMessageBrocker(arg)
-    })
   }
 
   function onDisconnect(){
@@ -44,7 +41,10 @@ export default function Home() {
     }
 
     socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect)
+    socket.on("disconnect", onDisconnect);
+    socket.on("message", (arg) => {
+      setMessageBrocker(String(arg))
+    })
 
     return () => {
       socket.off("connect", onConnect)
@@ -57,7 +57,7 @@ export default function Home() {
       <main className={styles.main}>
         <p>Status: {isConnected ? "connected": "disconnected"}</p>
         <p>Transport: {transport } </p>
-        <p>Message: {messageSocket != '' ? messageSocket : "message none"}</p>
+        <p>My socket ID: {messageSocket != '' ? messageSocket : "message none"}</p>
         <p>Message Broker: { messageBroker != '' ? messageBroker : "message broker is empty"} </p>
       </main>
       <footer className={styles.footer}>

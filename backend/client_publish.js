@@ -3,7 +3,6 @@ import fs from "node:fs";
 import { randomUUID } from "crypto";
 import csv from "csv-parser";
 
-
 const url_dev = "mqtt://localhost:1883"
 
 const url_senai = "mqtt://broker.hubsenai.com"
@@ -18,6 +17,8 @@ const client = mqtt.connect(url_senai, options)
 
 let results = [];
 
+const TOPIC = "exampleTopico"
+
 client.on("connect", async () => {
     console.log('Connecting Mosquitto Broker')
     
@@ -28,16 +29,14 @@ client.on("connect", async () => {
             //console.log(results);
             for(let item of results){
                 
-                client.publish('dados_temperatura', JSON.stringify(item) , (err) => {
+                client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
                     if(!err){
-                        console.log('Sending message')
+                        console.log(`Published message in topic: ${TOPIC}`)
                     } else {
                         console.error(err)
                     }
                 })
             }
         })
-
-    
-    
+   
 })
