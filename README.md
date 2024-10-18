@@ -1,5 +1,9 @@
 # Interface Consumo Protocolo MQTT
 Interface Web para exibição de dados do broker MQTT mosquitto 
+
+## Required softwares
+- [**docker**](https://www.docker.com/)
+- [**node**](https://nodejs.org/pt)
  
 ## Sobre o Next.js
 
