@@ -43,7 +43,10 @@ export default function Home() {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("message", (arg) => {
-      setMessageBrocker(String(arg))
+      Array(arg).forEach((element) => {
+        setMessageBrocker(JSON.parse(element))
+        console.log('dados in JSON:', Object(messageBroker).value)
+      })
     })
 
     return () => {

@@ -23,19 +23,35 @@ client.on("connect", async () => {
     console.log('Connecting Mosquitto Broker')
     
     fs.createReadStream('test.csv')
-        .pipe(csv({ separator: ';'}))
-        .on('data', (data) => results.push(data))
+        .pipe(csv( 
+            {
+                separator: ';',
+                newline: '\n',
+                /*mapHeaders: ({temperatura}) => temperatura.toLowerCase(),
+                mapValues: ({value}) => value.toLowerCase()*/
+            }
+        ))
+        .on('data', (data) => {
+            Array(data).forEach(
+                (element) => {results.push(element)
+                //console.log('element:',element)
+                }
+            )
+        })
         .on('end', () => {
-            //console.log(results);
+            console.log(results);
             for(let item of results){
                 
-                client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
-                    if(!err){
-                        console.log(`Published message in topic: ${TOPIC}`)
-                    } else {
-                        console.error(err)
-                    }
-                })
+                /*setInterval(() => {*/
+                    client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
+                        if(!err){
+                            console.log(`Published ${item.Data} in topic: ${TOPIC}`)
+                        } else {
+                            console.error(err)
+                        }
+                    })
+                /*}
+                , 5000)*/
             }
         })
    
