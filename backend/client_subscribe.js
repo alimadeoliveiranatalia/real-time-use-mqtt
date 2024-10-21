@@ -49,7 +49,7 @@ let messages = [];
 
 client.on("message", (topic, message) => {
     console.info('MQTT-Client: listening topic ', topic)
-    console.info('message: ', message.toString('utf8'))
+    console.info('message: ', JSON.parse(message.toString('utf8')))
     io.emit('message', message.toString('utf8'))   
 
 })

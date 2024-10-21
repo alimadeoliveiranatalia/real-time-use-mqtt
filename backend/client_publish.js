@@ -39,13 +39,11 @@ client.on("connect", async () => {
             )
         })
         .on('end', () => {
-            console.log(results);
-            for(let item of results){
-                
+            for(let item of results){                
                 /*setInterval(() => {*/
                     client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
                         if(!err){
-                            console.log(`Published ${item.Data} in topic: ${TOPIC}`)
+                            console.log(`Published ${results.length--} in topic: ${TOPIC}`)
                         } else {
                             console.error(err)
                         }

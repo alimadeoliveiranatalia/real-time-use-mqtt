@@ -10,7 +10,7 @@ export default function Home() {
 
   const [isConnected, setIsConnected ] = useState(false);
   const [ messageSocket, setMessageSocket ] = useState('');
-  const [messageBroker, setMessageBrocker] = useState('')
+  const [messageBroker, setMessageBrocker] = useState([])
   const [transport, setTransport ] = useState("N/A")
 
   function onConnect(){
@@ -35,6 +35,12 @@ export default function Home() {
     setTransport("N/A")
   }
 
+  function captureMessages(item){
+   console.log('item:', item)
+   setMessageBrocker(item)
+   console.log('messageBroker', messageBroker)
+  }
+
   useEffect(() => {
     if(socket.connected){
       onConnect()
@@ -43,10 +49,8 @@ export default function Home() {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("message", (arg) => {
-      Array(arg).forEach((element) => {
-        setMessageBrocker(JSON.parse(element))
-        console.log('dados in JSON:', Object(messageBroker).value)
-      })
+      console.log(JSON.parse(arg))
+      captureMessages(JSON.parse(arg))
     })
 
     return () => {
@@ -61,7 +65,12 @@ export default function Home() {
         <p>Status: {isConnected ? "connected": "disconnected"}</p>
         <p>Transport: {transport } </p>
         <p>My socket ID: {messageSocket != '' ? messageSocket : "message none"}</p>
-        <p>Message Broker: { messageBroker != '' ? messageBroker : "message broker is empty"} </p>
+        <ul>
+          <p>messages</p>
+          { messageBroker.length != 0 ? messageBroker.map(
+            (element) => (<li>{element[0]}</li>) )
+            : <p>message broker is empty</p> }
+        </ul>
       </main>
       <footer className={styles.footer}>
         <a
