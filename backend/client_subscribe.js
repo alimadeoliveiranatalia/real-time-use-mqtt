@@ -30,7 +30,7 @@ const io = new Server(port_node_server, {
     }
 })
 
-const TOPIC = "exampleTopico" //"cibercompartilhamento/n1/117/Umidade"
+const TOPIC = "iot/ventilador/corrente"
 
 client.on("connect", () => {
     client.subscribe(`${TOPIC}`, (err) => {
@@ -48,15 +48,16 @@ client.on("connect", () => {
 let messages = [];
 
 client.on("message", (topic, message) => {
-    console.info('MQTT-Client: listening topic ', topic)
-    console.info('message: ', JSON.parse(message.toString('utf8')))
+    //console.info('MQTT-Client: listening topic ', topic)
+    //console.info(`message:${message.toString('utf8')} in ${new Date().getSeconds()}`)
     io.emit('message', message.toString('utf8'))   
 
 })
 
 io.on("connection", (socket) => {
     console.info(`SocketIO-Client: Server is running at http://localhost:${port_node_server}`)
-    console.log(`SocketIO-Client: connect ${socket.id}`)
-    socket.emit("status connect", `connect ${socket.id}`)   
+    //console.log(`SocketIO-Client: connect ${socket.id} in ${new Date().getSeconds()}s`)
+    socket.emit("status connect", `connect ${socket.id} in ${new Date().getSeconds()}s`)   
 })
+
 

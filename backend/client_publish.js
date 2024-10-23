@@ -17,18 +17,25 @@ const client = mqtt.connect(url_senai, options)
 
 let results = [];
 
-const TOPIC = "exampleTopico"
+const TOPIC = "iot/ventilador/ligar"
 
 client.on("connect", async () => {
     console.log('Connecting Mosquitto Broker')
+    client.publish(`${TOPIC}`, 'ventilador' , (err) => {
+        if(!err){
+            console.log(`Published in topic: ${TOPIC}`)
+        } else {
+            console.error(err)
+        }
+    })
     
-    fs.createReadStream('test.csv')
+    /*fs.createReadStream('test.csv')
         .pipe(csv( 
             {
                 separator: ';',
                 newline: '\n',
-                /*mapHeaders: ({temperatura}) => temperatura.toLowerCase(),
-                mapValues: ({value}) => value.toLowerCase()*/
+                mapHeaders: ({temperatura}) => temperatura.toLowerCase(),
+                mapValues: ({value}) => value.toLowerCase()
             }
         ))
         .on('data', (data) => {
@@ -40,7 +47,7 @@ client.on("connect", async () => {
         })
         .on('end', () => {
             for(let item of results){                
-                /*setInterval(() => {*/
+                /*setInterval(() => {
                     client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
                         if(!err){
                             console.log(`Published ${results.length--} in topic: ${TOPIC}`)
@@ -49,8 +56,8 @@ client.on("connect", async () => {
                         }
                     })
                 /*}
-                , 5000)*/
+                , 5000)
             }
-        })
+        })*/
    
 })

@@ -4,6 +4,10 @@ Interface Web para exibição de dados do broker MQTT mosquitto
 ## Required softwares
 - [**docker**](https://www.docker.com/)
 - [**node**](https://nodejs.org/pt)
+- [**mqtt.JS**](https://www.npmjs.com/package/mqtt)
+- [**paho-mqtt**](https://pypi.org/project/paho-mqtt/)
+- [**next.js**](https://nextjs.org/)
+- [**mosquitto**](https://mosquitto.org/)
  
 ## Sobre o Next.js
 

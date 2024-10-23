@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import GaugeComponent from "react-gauge-component";
 
 const socket = io('http://localhost:3400', { transports : ["websocket"]})
 
@@ -10,8 +11,9 @@ export default function Home() {
 
   const [isConnected, setIsConnected ] = useState(false);
   const [ messageSocket, setMessageSocket ] = useState('');
-  const [messageBroker, setMessageBrocker] = useState([])
-  const [transport, setTransport ] = useState("N/A")
+  const [messageBroker, setMessageBrocker] = useState('');
+  const [transport, setTransport ] = useState("N/A");
+  const [statusLigar, setStatusLigar ] = useState('');
 
   function onConnect(){
     setIsConnected(true)
@@ -35,10 +37,14 @@ export default function Home() {
     setTransport("N/A")
   }
 
-  function captureMessages(item){
-   console.log('item:', item)
+  function captureMessages(item:string){
    setMessageBrocker(item)
-   console.log('messageBroker', messageBroker)
+   const stringItem = new String(item)
+   console.log('stringItem lenght:', stringItem.length)
+  }
+
+  function ligar(){
+    setStatusLigar('ventilador')
   }
 
   useEffect(() => {
@@ -49,9 +55,9 @@ export default function Home() {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("message", (arg) => {
-      console.log(JSON.parse(arg))
-      captureMessages(JSON.parse(arg))
+      captureMessages(String(arg))
     })
+
 
     return () => {
       socket.off("connect", onConnect)
@@ -67,10 +73,83 @@ export default function Home() {
         <p>My socket ID: {messageSocket != '' ? messageSocket : "message none"}</p>
         <ul>
           <p>messages</p>
-          { messageBroker.length != 0 ? messageBroker.map(
-            (element) => (<li>{element[0]}</li>) )
-            : <p>message broker is empty</p> }
+          <li>{messageBroker}</li>
         </ul>
+        <GaugeComponent
+          type="semicircle"
+          arc={{
+            width: 0.2,
+            padding: 0.005,
+            cornerRadius: 1,
+            // gradient: true,
+            subArcs: [
+              {
+                limit: 5,
+                color: '#EA4228',
+                showTick: true,
+                tooltip: {
+                  text: 'Too low temperature!'
+                },
+                onClick: () => console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+                onMouseMove: () => console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"),
+                onMouseLeave: () => console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"),
+              },
+              {
+                limit: 7,
+                color: '#F5CD19',
+                showTick: true,
+                tooltip: {
+                  text: 'Low temperature!'
+                }
+              },
+              {
+                limit: 8,
+                color: '#5BE12C',
+                showTick: true,
+                tooltip: {
+                  text: 'OK temperature!'
+                }
+              },
+              {
+                limit: 9, color: '#F5CD19', showTick: true,
+                tooltip: {
+                  text: 'High temperature!'
+                }
+              },
+              {
+                color: '#EA4228',
+                tooltip: {
+                  text: 'Too high temperature!'
+                }
+              }
+            ]
+          }}
+          pointer={{
+            color: '#345243',
+            length: 0.80,
+            width: 15,
+            // elastic: true,
+          }}
+          labels={{
+            valueLabel: { formatTextValue: value => value + 'ºC' },
+            tickLabels: {
+              type: 'outer',
+              defaultTickValueConfig: { 
+                formatTextValue: (value: any) => value + 'ºC' ,
+                style: {fontSize: 10}
+            },
+              ticks: [
+                { value: 13 },
+                { value: 22.5 },
+                { value: 32 }
+              ],
+            }
+          }}
+          value={(Number(messageBroker))}
+          minValue={0}
+          maxValue={10}
+        />
+        <button onClick={ligar} disabled={statusLigar === 'ventilador' ? true : false }>ligar</button>
       </main>
       <footer className={styles.footer}>
         <a
