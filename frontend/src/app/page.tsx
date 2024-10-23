@@ -10,10 +10,10 @@ const socket = io('http://localhost:3400', { transports : ["websocket"]})
 export default function Home() {
 
   const [isConnected, setIsConnected ] = useState(false);
-  const [ messageSocket, setMessageSocket ] = useState('');
+  const [messageSocket, setMessageSocket ] = useState('');
   const [messageBroker, setMessageBrocker] = useState('');
   const [transport, setTransport ] = useState("N/A");
-  const [statusLigar, setStatusLigar ] = useState('');
+  const [statusLigar, setStatusLigar ] = useState('ventilador off');
 
   function onConnect(){
     setIsConnected(true)
@@ -39,12 +39,11 @@ export default function Home() {
 
   function captureMessages(item:string){
    setMessageBrocker(item)
-   const stringItem = new String(item)
-   console.log('stringItem lenght:', stringItem.length)
   }
 
   function ligar(){
     setStatusLigar('ventilador')
+    console.log('status ligar:' , statusLigar)
   }
 
   useEffect(() => {
@@ -84,42 +83,26 @@ export default function Home() {
             // gradient: true,
             subArcs: [
               {
-                limit: 5,
-                color: '#EA4228',
+                limit: 3.33,
+                color: '#5BE12C',
                 showTick: true,
                 tooltip: {
-                  text: 'Too low temperature!'
+                  text: 'Economic 😁'
                 },
                 onClick: () => console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
                 onMouseMove: () => console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"),
                 onMouseLeave: () => console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"),
               },
               {
-                limit: 7,
-                color: '#F5CD19',
-                showTick: true,
+                limit: 7.07, color: '#F5CD19', showTick: true,
                 tooltip: {
-                  text: 'Low temperature!'
-                }
-              },
-              {
-                limit: 8,
-                color: '#5BE12C',
-                showTick: true,
-                tooltip: {
-                  text: 'OK temperature!'
-                }
-              },
-              {
-                limit: 9, color: '#F5CD19', showTick: true,
-                tooltip: {
-                  text: 'High temperature!'
+                  text: 'Attention 🤔!'
                 }
               },
               {
                 color: '#EA4228',
                 tooltip: {
-                  text: 'Too high temperature!'
+                  text: 'Too high 😥!'
                 }
               }
             ]
@@ -131,11 +114,11 @@ export default function Home() {
             // elastic: true,
           }}
           labels={{
-            valueLabel: { formatTextValue: value => value + 'ºC' },
+            valueLabel: { formatTextValue: value => value + 'A' },
             tickLabels: {
               type: 'outer',
               defaultTickValueConfig: { 
-                formatTextValue: (value: any) => value + 'ºC' ,
+                formatTextValue: (value: any) => value + 'A' ,
                 style: {fontSize: 10}
             },
               ticks: [
@@ -149,7 +132,7 @@ export default function Home() {
           minValue={0}
           maxValue={10}
         />
-        <button onClick={ligar} disabled={statusLigar === 'ventilador' ? true : false }>ligar</button>
+        <button onClick={ligar}>ligar</button>
       </main>
       <footer className={styles.footer}>
         <a
