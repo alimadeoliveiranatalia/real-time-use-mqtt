@@ -5,11 +5,11 @@ import csv from "csv-parser";
 
 const url_dev = "mqtt://localhost:1883"
 
-const url_senai = "mqtt://broker.hubsenai.com"
+const url_senai = process.env.BROKER_SENAI
 
 const options = {
-    username: "admin-broker-109",
-    password: "Senai@BrokerAdm109",
+    username: process.env.USER,
+    password: process.env.PASS,
     clientId: `client-${randomUUID()}`
 }
 
@@ -47,7 +47,7 @@ client.on("connect", async () => {
         })
         .on('end', () => {
             for(let item of results){                
-                /*setInterval(() => {
+                setInterval(() => {
                     client.publish(`${TOPIC}`, JSON.stringify(item) , (err) => {
                         if(!err){
                             console.log(`Published ${results.length--} in topic: ${TOPIC}`)
@@ -55,7 +55,7 @@ client.on("connect", async () => {
                             console.error(err)
                         }
                     })
-                /*}
+                }
                 , 5000)
             }
         })*/

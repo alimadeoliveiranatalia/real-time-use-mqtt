@@ -6,13 +6,13 @@ const port_node_server = 3400
 
 const url_dev = "mqtt://localhost:1883";
 
-const url_senai = "mqtt://broker.hubsenai.com"
+const url_senai = process.env.BROKER_SENAI
 /**
  * credenciais de conecxão ao broker
  */
 const options = {
-    username: "admin-broker-109",
-    password: "Senai@BrokerAdm109",
+    username: process.env.USER,
+    password: process.env.PASS,
     clientId: `client-${randomUUID()}`
 }
 /**
@@ -26,7 +26,7 @@ const client = mqtt.connect(url_senai, options)
 
 const io = new Server(port_node_server, {
     cors: {
-        origin: "http://localhost:3000"
+        origin: process.env.INTERFACE_NEXT
     }
 })
 
@@ -49,14 +49,14 @@ let messages = [];
 
 client.on("message", (topic, message) => {
     //console.info('MQTT-Client: listening topic ', topic)
-    //console.info(`message:${message.toString('utf8')} in ${new Date().getSeconds()}`)
+    console.info(`message:${message.toString('utf8')} in ${new Date().getSeconds()}`)
     io.emit('message', message.toString('utf8'))   
 
 })
 
 io.on("connection", (socket) => {
     console.info(`SocketIO-Client: Server is running at http://localhost:${port_node_server}`)
-    //console.log(`SocketIO-Client: connect ${socket.id} in ${new Date().getSeconds()}s`)
+    console.log(`SocketIO-Client: connect ${socket.id} in ${new Date().getSeconds()}s`)
     socket.emit("status connect", `connect ${socket.id} in ${new Date().getSeconds()}s`)   
 })
 
