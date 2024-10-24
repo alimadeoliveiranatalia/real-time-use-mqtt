@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import GaugeComponent from "react-gauge-component";
 
-const socket = io('http://localhost:3400', { transports : ["websocket"]})
+const socket = io(process.env.WEBSOCKET_SERVER, { transports : ["websocket"]})
 
 export default function Home() {
 
@@ -70,10 +70,6 @@ export default function Home() {
         <p>Status: {isConnected ? "connected": "disconnected"}</p>
         <p>Transport: {transport } </p>
         <p>My socket ID: {messageSocket != '' ? messageSocket : "message none"}</p>
-        <ul>
-          <p>messages</p>
-          <li>{messageBroker}</li>
-        </ul>
         <GaugeComponent
           type="semicircle"
           arc={{
@@ -89,9 +85,9 @@ export default function Home() {
                 tooltip: {
                   text: 'Economic 😁'
                 },
-                onClick: () => console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
-                onMouseMove: () => console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"),
-                onMouseLeave: () => console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"),
+                onClick: () => console.log("click here 😊"),
+                onMouseMove: () => console.log("you're move 👀"),
+                onMouseLeave: () => console.log("you're out area 📎 "),
               },
               {
                 limit: 7.07, color: '#F5CD19', showTick: true,
