@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import GaugeComponent from "react-gauge-component";
 
-const socket = io(process.env.WEBSOCKET_SERVER, { transports : ["websocket"]})
+const socket = io('http://localhost:3400', { transports : ["websocket"]})
 
 export default function Home() {
 

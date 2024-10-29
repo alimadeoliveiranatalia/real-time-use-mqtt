@@ -6,13 +6,13 @@ const port_node_server = 3400
 
 const url_dev = "mqtt://localhost:1883";
 
-const url_senai = process.env.BROKER_SENAI
+const url_senai = `${process.env.BROKER_SENAI}`
 /**
  * credenciais de conecxão ao broker
  */
 const options = {
-    username: process.env.USER,
-    password: process.env.PASS,
+    username: `${process.env.USER}`,
+    password: `${process.env.PASS}`,
     clientId: `client-${randomUUID()}`
 }
 /**
@@ -30,7 +30,7 @@ const io = new Server(port_node_server, {
     }
 })
 
-const TOPIC = "iot/ventilador/corrente"
+const TOPIC = "cibercompartilhamento/n1/109/Cor_Sendo_processada"
 
 client.on("connect", () => {
     client.subscribe(`${TOPIC}`, (err) => {
