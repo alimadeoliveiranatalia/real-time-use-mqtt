@@ -7,7 +7,6 @@ const port_node_server = 3400
 const url_dev = "mqtt://localhost:1883";
 
 const url_senai = `mqtt://${process.env.BROKER_SENAI}`
-console.log(`broker mqtt: ${process.env.BROKER_SENAI}`)
 /**
  * credenciais de conecxão ao broker
  */
