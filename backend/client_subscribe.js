@@ -30,7 +30,7 @@ const io = new Server(port_node_server, {
     }
 })
 
-const TOPIC = "cibercompartilhamento/n1/109/Cor_Sendo_processada"
+const TOPIC = "cibercompartilhamento/n1/109/StatusOperacao"
 
 client.on("connect", () => {
     client.subscribe(`${TOPIC}`, (err) => {
@@ -47,7 +47,7 @@ client.on("connect", () => {
 
 client.on("message", (topic, message) => {
     console.info('MQTT-Client: listening topic ', topic)
-    console.info(`message:${message.toString('utf8')} in ${new Date().getSeconds()}`)
+    console.info(`message:${message.toString('utf8')} in ${new Date().getSeconds()}s`)
     io.emit('message', message.toString('utf8'))   
 
 })

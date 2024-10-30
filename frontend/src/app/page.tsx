@@ -38,7 +38,7 @@ export default function Home() {
   }
 
   function captureMessages(item:string){
-   setMessageBrocker(item)
+    setMessageBrocker(item)
   }
 
   function ligar(){
@@ -70,7 +70,9 @@ export default function Home() {
         <p>Status: {isConnected ? "connected": "disconnected"}</p>
         <p>Transport: {transport } </p>
         <p>My socket ID: {messageSocket != '' ? messageSocket : "message none"}</p>
-        <GaugeComponent
+        <p>Message Broker: {messageBroker != '' ? messageBroker : "message broker none"} 
+          { messageBroker === 'AGUARDANDO' ? '🤔' : messageBroker === 'PRODUZINDO' ? '😁' : '📉' }</p>
+        {/*<GaugeComponent
           type="semicircle"
           arc={{
             width: 0.2,
@@ -128,7 +130,7 @@ export default function Home() {
           minValue={0}
           maxValue={10}
         />
-        <button onClick={ligar}>ligar</button>
+        <button onClick={ligar}>ligar</button>*/}
       </main>
       <footer className={styles.footer}>
         <a
