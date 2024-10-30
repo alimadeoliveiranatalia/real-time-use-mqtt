@@ -1,12 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Client Server Subscribe MQTT protocol",
+  "description": "Client Server Subscribe and Publish Nodejs MQTT protocol",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node client_subscribe.js"
+    "publish": "node --env-file=.env client_publish.js",
+    "start": "node --env-file=.env client_subscribe.js"
   },
   "keywords": [],
   "author": "alimadeoliveiranatalia",
